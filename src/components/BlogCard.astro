@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: string;
+  url: string;
+  tags?: string[];
+}
+
+const { title, description, pubDate, url, tags } = Astro.props;
+---
+
+<article class="border rounded-lg p-6 hover:shadow-lg transition-shadow">
+  <h2 class="text-2xl font-bold mb-2">
+    <a href={url}>{title}</a>
+  </h2>
+  <time class="text-gray-600"
+    >{
+      new Date(pubDate).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    }</time
+  >
+  <p class="mt-2">{description}</p>
+  {
+    tags && (
+      <div class="flex gap-2 mt-4">
+        {tags.map((tag) => (
+          <span class="text-sm bg-gray-100 px-2 py-1 rounded">{tag}</span>
+        ))}
+      </div>
+    )
+  }
+</article>

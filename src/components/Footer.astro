@@ -1,0 +1,42 @@
+---
+const currentYear = new Date().getFullYear();
+const socialLinks = [
+  { label: "Twitter", href: "https://twitter.com/yourusername", icon: "𝕏" },
+  { label: "GitHub", href: "https://github.com/yourusername", icon: "⌨" },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/yourusername",
+    icon: "💼",
+  },
+];
+---
+
+<footer class="bg-gray-50 border-t mt-auto">
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="text-gray-600">
+        © {currentYear} Your Blog Name. All rights reserved.
+      </div>
+
+      <nav>
+        <ul class="flex gap-6">
+          {
+            socialLinks.map(({ label, href, icon }) => (
+              <li>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-gray-600 hover:text-gray-900 transition-colors"
+                  aria-label={label}
+                >
+                  {icon}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>
