@@ -1,9 +1,10 @@
 ---
+import Tags from "../components/Tags.astro";
 interface Props {
   frontmatter: {
     title: string;
     description: string;
-    pubDate: string | Date;
+    pubDate: Date;
     tags?: string[];
   };
 }
@@ -17,7 +18,7 @@ const { frontmatter } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <title>{frontmatter.title}</title>
   </head>
-  <body>
+  <body class="bg-slate-900">
     <main class="container mx-auto px-4 py-8">
       <article class="prose prose-lg max-w-3xl mx-auto">
         <header class="mb-8">
@@ -31,17 +32,7 @@ const { frontmatter } = Astro.props;
               })
             }
           </time>
-          {
-            frontmatter.tags && (
-              <div class="flex gap-2 mt-4">
-                {frontmatter.tags.map((tag) => (
-                  <span class="text-sm bg-gray-100 px-2 py-1 rounded">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )
-          }
+          <Tags tags={frontmatter.tags} />
         </header>
         <slot />
       </article>

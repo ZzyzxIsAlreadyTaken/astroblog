@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allBlogPosts = await getCollection("blog");
+const allTags = allBlogPosts.flatMap((post) => post.data.tags || []);
+
+// Count occurrences of each tag
+const tagCounts = allTags.reduce(
+  (acc, tag) => {
+    acc[tag] = (acc[tag] || 0) + 1;
+    return acc;
+  },
+  {} as Record<string, number>
+);
+
+// Calculate relative sizes (between 0.8 and 1.6em)
+const getTagSize = (count: number) => {
+  const max = Math.max(...Object.values(tagCounts));
+  const min = Math.min(...Object.values(tagCounts));
+  const range = max - min || 1;
+  const normalized = (count - min) / range;
+  return 0.8 + normalized * 0.8; // Scale between 0.8 and 1.6
+};
+---
+
+<BaseLayout title="Tags">
+  <h1 class="text-4xl font-bold mb-8">Tags</h1>
+  <div class="flex flex-wrap gap-2">
+    {
+      Object.entries(tagCounts).map(([tag, count]) => (
+        <a href={`/posts/tag/${tag}`}>
+          <span
+            class="text-sm bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-all"
+            style={`font-size: ${getTagSize(count)}em;`}
+          >
+            {tag} ({count})
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>
