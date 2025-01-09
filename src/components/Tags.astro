@@ -10,8 +10,8 @@ const { tags } = Astro.props;
   tags && (
     <div class="flex gap-2 mt-4">
       {tags.map((tag) => (
-        <a href={`/posts/tag/${tag}`}>
-          <span class="text-sm bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors duration-300 no-underline">
+        <a href={`/posts/tag/${tag}`} class="no-underline">
+          <span class="text-sm bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors duration-300">
             {tag}
           </span>
         </a>

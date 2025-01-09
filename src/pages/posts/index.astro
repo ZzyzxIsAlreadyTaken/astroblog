@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import { getCollection } from "astro:content";
-
+import TagCloud from "../../components/TagCloud.astro";
 const posts = await getCollection("blog");
 const sortedPosts = posts.sort(
   (a: any, b: any) =>
@@ -12,7 +12,8 @@ const sortedPosts = posts.sort(
 
 <BaseLayout title="Blog">
   <h1 class="text-4xl font-bold mb-8">Blog Posts</h1>
-  <div class="grid gap-8 md:grid-cols-2">
+  <TagCloud />
+  <div class="grid gap-8 md:grid-cols-2 mt-4">
     {
       sortedPosts.map((post: any) => (
         <BlogCard

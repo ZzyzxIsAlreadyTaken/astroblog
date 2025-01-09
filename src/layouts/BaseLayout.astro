@@ -18,7 +18,9 @@ const { title = "Hello Astro!" } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body
+    class="min-h-screen flex flex-col bg-gradient-to-br from-white via-stone-100 to-stone-200"
+  >
     <Header />
     <main class="flex-grow container mx-auto py-8">
       <slot />

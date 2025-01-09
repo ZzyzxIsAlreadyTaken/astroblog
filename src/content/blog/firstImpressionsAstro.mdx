@@ -1,0 +1,38 @@
+---
+title: First Impressions of Astro
+pubDate: 2025-01-09
+tags: ["astro", "blog", "markdown"]
+slug: first-impressions-astro
+description: My first impressions of Astro
+---
+
+I've been using Astro for a two days now and I am having fun.
+
+## Current Features
+
+I've built a blog that converts markdown files into blog posts. Additionally, I've developed a tag page that displays all blog posts linked to a specific tag. There's also a tag cloud feature that presents all tags in a cloud format. Moreover, I've created a welcome page that features the latest blog post. Finally, I've implemented a 404 page to manage error handling.
+
+## Styling
+
+I am not using Style tags but have explored it a little. So far Im only using Tailwind directly in the HTML.
+
+### Layouts
+
+BaseLayout is wrapping all my pages, and has a &lt;Header&gt; and &lt;Footer&gt; component.
+BlogPost is a layout for blog posts, and has a &lt;Content&gt; (from Astro) component.
+
+### Components
+
+I have created a TagCloud component that takes in all the tags and renders them as a cloud of tags.
+I have created a BlogCard component that takes in a blog post and renders it as a blog post.
+I have created a Tags component that shows the tags of a blog post (takes in tags from frontmatter).
+
+## Deployment
+
+I have deployed my blog to Netlify, and added a custom domain.
+So far Netlify has been a simple setup, the only issue is that it fails about every second time i push to the repo.
+The rest of the setup was quick and easy. SSR has been enabled, adding a domain from another party went smoothly (only a couple clicks).
+
+# Conclusion
+
+I am having fun with Astro, and I am looking forward to building more with it.

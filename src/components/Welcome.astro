@@ -1,116 +1,35 @@
 ---
-import astroLogo from "../assets/astro.svg";
-import background from "../assets/background.svg";
+import BlogCard from "./BlogCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog");
+const latestPost = posts.sort(
+  (a: any, b: any) =>
+    new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+)[0]; // Get only the first post after sorting
 ---
 
 <div id="container">
-  <img id="background" src={background.src} alt="" fetchpriority="high" />
-  <main>
-    <section id="hero">
-      <a href="https://astro.build"
-        ><img
-          src={astroLogo.src}
-          width="115"
-          height="48"
-          alt="Astro Homepage"
-        /></a
-      >
-      <h1>Shubbadoo yabadabadoo</h1>
-      <section>Shabing</section>
-      <code>
-        {
-          ["🚀", "⭐", "🌟"].map((emoji) => (
-            <span class="astro-emoji">
-              {emoji} Astro is{" "}
-              {emoji === "🚀"
-                ? "fast"
-                : emoji === "⭐"
-                  ? "lightweight"
-                  : "powerful"}
-              !
-            </span>
-          ))
-        }
-      </code>
-    </section>
+  <main class="flex flex-col h-screen">
+    <h1 class="text-6xl font-bold">Welcome to my blog</h1>
+    <p class="text-lg mt-10">
+      I'm a software engineer and entrepreneur. I'm passionate about building
+      products that make a difference. I'm also a huge fan of the web platform
+      and the open web.
+    </p>
+    <div>
+      <h2 class="text-2xl font-bold mt-10">Latest Post</h2>
+      <div class="grid gap-8 md:grid-cols-2 mt-6">
+        <BlogCard
+          title={latestPost.data.title}
+          description={latestPost.data.description}
+          pubDate={latestPost.data.pubDate}
+          url={`/posts/${latestPost.slug}`}
+          tags={latestPost.data.tags}
+        />
+      </div>
+    </div>
+
+    <section></section>
   </main>
 </div>
-
-<style>
-  #background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    filter: blur(100px);
-  }
-
-  #container {
-    font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-      Arial, sans-serif;
-    height: 100%;
-  }
-
-  main {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  #hero {
-    display: flex;
-    align-items: start;
-    flex-direction: column;
-    justify-content: center;
-    padding: 16px;
-  }
-
-  h1 {
-    font-size: 22px;
-    margin-top: 0.25em;
-  }
-
-  pre {
-    font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-      Consolas, "DejaVu Sans Mono", monospace;
-    font-weight: normal;
-    background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 0;
-  }
-
-  h2 {
-    margin: 0 0 1em;
-    font-weight: normal;
-    color: #111827;
-    font-size: 20px;
-  }
-
-  p {
-    color: #4b5563;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.006em;
-    margin: 0;
-  }
-
-  code {
-    display: inline-block;
-    background:
-      linear-gradient(66.77deg, #f3cddd 0%, #f5cee7 100%) padding-box,
-      linear-gradient(155deg, #d83333 0%, #f041ff 18%, #f5cee7 45%) border-box;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 6px 8px;
-  }
-
-  .astro-emoji {
-    display: block;
-    margin: 8px 0;
-    font-size: 16px;
-  }
-</style>
