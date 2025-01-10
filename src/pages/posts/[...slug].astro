@@ -1,7 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
-
+import { SITE_TITLE } from "../../utils/constants";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const { slug } = Astro.params;
@@ -18,7 +18,7 @@ if (!entry) {
 const { Content } = await entry.render();
 ---
 
-<BaseLayout>
+<BaseLayout title={SITE_TITLE + " - " + entry.data.title}>
   <BlogPost frontmatter={entry.data}>
     <Content />
   </BlogPost>

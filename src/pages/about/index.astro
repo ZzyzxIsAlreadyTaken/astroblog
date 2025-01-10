@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE_TITLE } from "../../utils/constants";
+---
+
+<BaseLayout title={`${SITE_TITLE} - About`}>
+  <div class="prose prose-lg max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8">About Me</h1>
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Professional Background</h2>
+      <p>
+        I'm a consultant at Atea, specializing in SharePoint and modern web
+        development. My journey in tech started with SharePoint development back
+        in 2012, where I initially focused on configuration, HTML, and CSS
+        customizations. Aswell as server configuration and management as
+        everything was on prem back then.
+      </p>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Technical Evolution</h2>
+      <p>My development journey has evolved significantly over the years:</p>
+      <ul class="list-disc pl-6 mt-4 space-y-2">
+        <li>
+          <strong>2012-2020:</strong> SharePoint development, primarily focusing
+          on:
+          <ul class="list-circle pl-6 mt-2 mb-2">
+            <li>HTML/CSS customizations</li>
+            <li>Basic JavaScript and jQuery implementations</li>
+            <li>SharePoint configurations and workflows</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Recent Years:</strong> Expanded into modern web development:
+          <ul class="list-circle pl-6 mt-2">
+            <li>SPFx development for SharePoint - ReactJS and TypeScript</li>
+            <li>React development for enterprise applications</li>
+            <li>Full-stack development with Next.js (hobby projects)</li>
+            <li>Modern JavaScript/TypeScript</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Current Focus</h2>
+      <p>
+        While I continue to work with SharePoint in my professional role, I'm
+        passionate about modern web development and constantly learning new
+        technologies. In my spare time, I enjoy building full-stack applications
+        and exploring new frameworks like Astro (which powers this blog!).
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-4">Let's Connect</h2>
+      <p>
+        I'm always interested in connecting with other developers and sharing
+        experiences. Feel free to reach out through any of the social links in
+        the footer!
+      </p>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,5 +1,7 @@
 ---
 import Tags from "./Tags.astro";
+import { remark } from "remark";
+import html from "remark-html";
 
 interface Props {
   title: string;
@@ -7,24 +9,84 @@ interface Props {
   pubDate: Date;
   url: string;
   tags?: string[];
+  generateExcerpt?: boolean;
+  content?: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  featured?: boolean;
 }
 
-const { title, description, pubDate, url, tags } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  url,
+  tags,
+  generateExcerpt,
+  content,
+  image,
+  featured,
+} = Astro.props;
+
+// Function to extract the first 255 words
+async function extractExcerpt(
+  content: string,
+  wordLimit: number = 100
+): Promise<string> {
+  const formattedContent = await formatMDX(content);
+  return formattedContent.split(/\s+/).slice(0, wordLimit).join(" ") + "...";
+}
+
+async function formatMDX(content: string) {
+  const result = await remark().use(html).process(content);
+  return result.toString();
+}
+
+let excerpt = "";
+
+if (generateExcerpt && content) {
+  excerpt = await extractExcerpt(content);
+}
 ---
 
-<article class="border rounded-lg p-6 hover:shadow-lg transition-shadow">
+<article
+  class={`border rounded-lg p-6 hover:shadow-lg transition-shadow ${featured ? "col-span-2" : ""}`}
+>
+  {
+    image && (
+      <div class="mb-4 overflow-hidden rounded-lg">
+        <img
+          src={image.src}
+          alt={image.alt}
+          class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+    )
+  }
   <h2 class="text-2xl font-bold mb-2">
     <a href={url}>{title}</a>
   </h2>
-  <time class="text-gray-600"
-    >{
+  <time class="text-gray-600">
+    {
       new Date(pubDate).toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
         year: "numeric",
       })
-    }</time
-  >
-  <p class="mt-2">{description}</p>
+    }
+  </time>
+  {
+    excerpt ? (
+      <div
+        class="mt-4 text-gray-700 prose prose-sm max-w-none overflow-hidden prose-headings:mt-2 prose-headings:mb-1 prose-h1:text-xl prose-h2:text-lg prose-p:my-1 prose-p:leading-relaxed"
+        set:html={excerpt}
+      />
+    ) : (
+      <p class="mt-2">{description}</p>
+    )
+  }
+
   <Tags tags={tags} />
 </article>
