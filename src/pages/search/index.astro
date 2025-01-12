@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import Search from "../../components/Search.astro";
+import { getCollection } from "astro:content";
+
+const query = Astro.url.searchParams.get("q")?.toLowerCase() || "";
+const posts = await getCollection("blog");
+
+const filteredPosts = await Promise.all(
+  posts.map(async (post) => {
+    const { Content } = await post.render();
+    const content = post.body;
+
+    const searchableFields = {
+      title: post.data.title.toLowerCase(),
+      description: post.data.description.toLowerCase(),
+      content: content.toLowerCase(),
+      tags: (post.data.tags || []).join(" ").toLowerCase(),
+      url: post.slug.toLowerCase(),
+    };
+
+    const matches = Object.entries(searchableFields)
+      .filter(([_, value]) => value.includes(query))
+      .map(([key]) => key);
+
+    return matches.length > 0 ? { post, matches } : null;
+  })
+).then((posts) => posts.filter(Boolean));
+---
+
+<BaseLayout title={`Search results for: ${query}`}>
+  <div class="container mx-auto px-4">
+    <div class="mt-10">
+      <Search />
+    </div>
+    <h1 class="text-3xl font-bold mb-8 mt-10">
+      {query ? `Search results for: ${query}` : "Search"}
+    </h1>
+
+    <div class="grid gap-8 md:grid-cols-2">
+      {
+        filteredPosts.map((result) => (
+          <div class="flex flex-col gap-2">
+            <BlogCard
+              title={result!.post.data.title}
+              description={result!.post.data.description}
+              pubDate={result!.post.data.pubDate}
+              url={`/posts/${result!.post.slug}`}
+              tags={result!.post.data.tags}
+              image={result!.post.data.image}
+              generateExcerpt={false}
+              content={result!.post.body}
+            />
+            <div class="text-sm text-gray-600">
+              Matched in: {result!.matches.join(", ")}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      filteredPosts.length === 0 && (
+        <p class="text-center text-gray-600">
+          No posts found matching your search.
+        </p>
+      )
+    }
+  </div>
+</BaseLayout>

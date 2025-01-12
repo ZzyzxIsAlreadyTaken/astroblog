@@ -52,11 +52,15 @@ if (generateExcerpt && content) {
 ---
 
 <article
-  class={`border rounded-lg p-6 hover:shadow-lg transition-shadow ${featured ? "col-span-2" : ""}`}
+  class={`border rounded-lg p-6 hover:shadow-lg transition-shadow ${
+    featured ? "col-span-2 md:grid md:grid-cols-2 md:gap-6" : ""
+  }`}
 >
   {
     image && (
-      <div class="mb-4 overflow-hidden rounded-lg">
+      <div
+        class={`overflow-hidden rounded-lg ${featured ? "md:order-2" : "mb-4"}`}
+      >
         <img
           src={image.src}
           alt={image.alt}
@@ -65,28 +69,32 @@ if (generateExcerpt && content) {
       </div>
     )
   }
-  <h2 class="text-2xl font-bold mb-2">
-    <a href={url}>{title}</a>
-  </h2>
-  <time class="text-gray-600">
+  <div class={featured ? "md:order-1" : ""}>
+    <h2
+      class={`font-bold mb-2 ${featured ? "text-3xl md:text-4xl" : "text-2xl"}`}
+    >
+      <a href={url}>{title}</a>
+    </h2>
+    <time class="text-gray-600">
+      {
+        new Date(pubDate).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        })
+      }
+    </time>
     {
-      new Date(pubDate).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      })
+      excerpt ? (
+        <div
+          class="mt-4 text-gray-700 prose prose-sm max-w-none overflow-hidden prose-headings:mt-2 prose-headings:mb-1 prose-h1:text-xl prose-h2:text-lg prose-p:my-1 prose-p:leading-relaxed"
+          set:html={excerpt}
+        />
+      ) : (
+        <p class="mt-2">{description}</p>
+      )
     }
-  </time>
-  {
-    excerpt ? (
-      <div
-        class="mt-4 text-gray-700 prose prose-sm max-w-none overflow-hidden prose-headings:mt-2 prose-headings:mb-1 prose-h1:text-xl prose-h2:text-lg prose-p:my-1 prose-p:leading-relaxed"
-        set:html={excerpt}
-      />
-    ) : (
-      <p class="mt-2">{description}</p>
-    )
-  }
 
-  <Tags tags={tags} />
+    <Tags tags={tags} />
+  </div>
 </article>
