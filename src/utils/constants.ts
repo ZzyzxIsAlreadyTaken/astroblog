@@ -1,1 +1,1 @@
-export const SITE_TITLE = "Blog";
+export const SITE_TITLE = "blog.zzyzx";

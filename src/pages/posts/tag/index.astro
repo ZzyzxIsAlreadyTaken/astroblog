@@ -8,7 +8,7 @@ const allBlogPosts = await getCollection("blog");
 const allTags = allBlogPosts.flatMap((post) => post.data.tags || []);
 ---
 
-<BaseLayout title={SITE_TITLE + "Tags"}>
+<BaseLayout title={SITE_TITLE + " - Tags"}>
   <h1 class="text-4xl font-bold mb-8">Tags</h1>
   <TagCloud tags={allTags} />
 </BaseLayout>
